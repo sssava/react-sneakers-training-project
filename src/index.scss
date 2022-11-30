@@ -71,6 +71,7 @@ header{
 
 .headerRight{
   display: flex;
+  cursor: pointer;
   li:first-child{
     margin-right: 25px;
   }
@@ -88,48 +89,9 @@ header{
 
 .sneakers{
   display: flex;
+  flex-wrap: wrap;
 }
 
-
-.card{
-  border: 1px solid #F3F3F3;
-  border-radius: 40px;
-  width: 210px;
-  padding: 20px;
-  margin-right: 40px;
-  transition: box-shadow 0.2s ease-in-out, transform 0.2s ease-in-out;
-  &:hover{
-    box-shadow: 0px 14px 30px rgba(0, 0, 0, 0.05);
-    transform: translateY(-5px);
-  }
-  img{
-    display: block;
-  }
-  h5{
-    font-weight: 400;
-    font-size: 14px;
-
-  }
-  span{
-    text-transform: uppercase;
-    opacity: 0.5;
-    font-size: 13px;
-  }
-
-  b{
-    font-size: 13px;
-  }
-  div{
-    display: flex;
-    justify-content: space-between;
-    margin-top: 8px;
-    align-items: center;
-    div{
-      display: flex;
-      flex-direction: column;
-    }
-  }
-}
 
 .button{
   background: #FFFFFF;
@@ -147,24 +109,32 @@ header{
   justify-content: space-between;
   align-items: center;
   margin-bottom: 40px;
+  h1{
+    overflow: auto;
+    max-width: 500px;
+  }
 }
 
 .search-block{
   border: 1px solid #F3F3F3;
   border-radius: 10px;
   padding: 0 15px;
+  position: relative;
   input{
     border: 0;
     padding: 13px;
     font-size: 16px;
     width: 200px;
   }
+  .clear{
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    top: 13px;
+    right: 15px;
+  }
 }
 
-.fav{
-  position: absolute;
-  cursor: pointer;
-}
 
 .overlay{
   position: absolute;
@@ -194,6 +164,40 @@ header{
   justify-content: space-between;
   img{
     cursor: pointer;
+  }
+}
+
+
+.cartEmpty{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  flex: 1;
+  text-align: center;
+
+  p {
+    width: 280px;
+    line-height: 24px;
+  }
+
+  .greenButton {
+    width: 245px;
+    margin-top: 20px;
+
+    &:hover {
+      img {
+        transform: rotate(180deg) translateX(3px);
+      }
+    }
+
+    img {
+      position: relative;
+      top: 1px;
+      transform: rotate(180deg);
+      margin-right: 15px;
+      transition: transform 0.15s ease-in-out;
+    }
   }
 }
 
