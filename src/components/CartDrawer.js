@@ -1,6 +1,6 @@
 import React from 'react';
 
-const CartDrawer = ({onClickCart, items = [], onRemove}) => {
+function CartDrawer({onClickCart, items = [], onRemove}) {
 
     return (
         <div className="overlay">
@@ -53,6 +53,6 @@ const CartDrawer = ({onClickCart, items = [], onRemove}) => {
             </div>
         </div>
     );
-};
+}
 
 export default CartDrawer;

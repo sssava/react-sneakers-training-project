@@ -1,8 +1,9 @@
 import React, {useState} from 'react';
 import cardStyles from './Card.module.scss'
 
-const Card = ({title, price, image, onPlus}) => {
+function Card({id, title, price, image, onPlus, onFav, favorited=false}) {
     const [isAdded, setIsAdded] = useState(false)
+    const [isFavorite, setIsFavorite] = useState(favorited)
 
     const onClickPlus = () => {
         setIsAdded(!isAdded)
@@ -11,10 +12,16 @@ const Card = ({title, price, image, onPlus}) => {
         }
     }
 
+    const onClickFav = () => {
+        setIsFavorite(prevFav => !prevFav)
+        onFav({id, title, image, price})
+
+    }
+
     return (
         <div className={cardStyles.card}>
-            <div className={cardStyles.fav}>
-                <img src="/img/heart-unlike.svg" alt="Unlike"/>
+            <div className={cardStyles.fav} onClick={onClickFav}>
+                <img src={isFavorite ? "/img/heart-like.svg" : "/img/heart-unlike.svg"} alt="Unlike"/>
             </div>
             <img width={133} height={112} src={image} alt="Sneakers"/>
             <h5>{title}</h5>
@@ -29,6 +36,6 @@ const Card = ({title, price, image, onPlus}) => {
             </div>
         </div>
     );
-};
+}
 
 export default Card;
