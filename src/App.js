@@ -1,4 +1,3 @@
-import Card from "./components/Card/Card.js";
 import Header from "./components/Header.js";
 import CartDrawer from "./components/CartDrawer.js";
 import axios from "axios";
@@ -14,23 +13,32 @@ function App() {
     const [searchValue, setSearchValue] = useState('')
     const [favorites, setFavorites] = useState([])
     const [cartOpened, setCartOpened] = useState(false)
+    const [isLoading, setIsLoading] = useState(true)
 
 
     useEffect(() =>{
-        axios.get("https://63875d2cd9b24b1be3ee3b8c.mockapi.io/items").then((res) =>{
-            setItems(res.data)
-        })
-        axios.get("https://63875d2cd9b24b1be3ee3b8c.mockapi.io/cart").then((res) =>{
-            setCartItems(res.data)
-        })
-        axios.get("https://63875d2cd9b24b1be3ee3b8c.mockapi.io/favorites").then((res) =>{
-            setFavorites(res.data)
-        })
+        async function fetchData(){
+            const cartResp = await axios.get("https://63875d2cd9b24b1be3ee3b8c.mockapi.io/cart")
+            const favResp = await axios.get("https://63875d2cd9b24b1be3ee3b8c.mockapi.io/favorites")
+            const itemsResp = await axios.get("https://63875d2cd9b24b1be3ee3b8c.mockapi.io/items")
+            setIsLoading(false)
+
+            setItems(itemsResp.data)
+            setCartItems(cartResp.data)
+            setFavorites(favResp.data)
+        }
+        fetchData()
     }, [])
 
     const onAddToCart = (obj) => {
-        axios.post("https://63875d2cd9b24b1be3ee3b8c.mockapi.io/cart", obj);
-        setCartItems(prevCartItem => [...prevCartItem, obj])
+        if(cartItems.find((item) => Number(item.id) === Number(obj.id))){
+            setCartItems(prevItems => prevItems.filter(item => Number(item.id) !== Number(obj.id)))
+            axios.delete(`https://63875d2cd9b24b1be3ee3b8c.mockapi.io/cart/${obj.id}`)
+
+        }else {
+            axios.post("https://63875d2cd9b24b1be3ee3b8c.mockapi.io/cart", obj);
+            setCartItems(prevCartItem => [...prevCartItem, obj])
+        }
     }
 
     const onRemoveFromCart = (id) => {
@@ -66,10 +74,10 @@ function App() {
             setSearchValue={setSearchValue}
             onChangeSearchInput={onChangeSearchInput}
             items={items}
+            cartItems={cartItems}
             onAddToCart={onAddToCart}
             onAddToFavorites={onAddToFavorites}
-            setItems={setItems}
-            setCartItems={setCartItems}
+            isLoading={isLoading}
              />} />
             <Route path="/favorites" element={<Favorites items={favorites} onAddToFavorites={onAddToFavorites}/>}/>
         </Routes>

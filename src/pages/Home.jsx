@@ -1,9 +1,19 @@
 import React from 'react';
 import Card from "../components/Card/Card.js";
 
-function Home({items, onChangeSearchInput, searchValue, setSearchValue, onAddToFavorites, onAddToCart}) {
+function Home({items, onChangeSearchInput, searchValue, setSearchValue, onAddToFavorites, onAddToCart, cartItems, isLoading}) {
+    const renderItems = () =>{
+        const filteredItems = items.filter((item) => item.title.toLowerCase().includes(searchValue.toLowerCase()))
+        return(isLoading ? [...Array(9)] : filteredItems).map((item, index) => (
+            <Card {...item}
+                  onPlus={(obj) => onAddToCart(obj)}
+                  onFav={(obj) => onAddToFavorites(obj)}
+                  added={cartItems.some(obj => Number(obj.id) === Number(item.id))}
+                  loading={isLoading}
+                  key={index}/>
 
-
+        ))
+    }
 
     return (
         <div className="content">
@@ -17,14 +27,7 @@ function Home({items, onChangeSearchInput, searchValue, setSearchValue, onAddToF
             </div>
 
             <div className="sneakers">
-                {items.filter((item) => item.title.toLowerCase().includes(searchValue.toLowerCase())).map(item => {
-                    return(
-                        <Card {...item}
-                              onPlus={(obj) => onAddToCart(obj)}
-                              onFav={(obj) => onAddToFavorites(obj)}
-                              key={item.id}/>
-                    )
-                })}
+                {renderItems()}
             </div>
         </div>
     );

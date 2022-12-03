@@ -9,18 +9,16 @@ function CartDrawer({onClickCart, items = [], onRemove}) {
                 {items.length > 0 ?
                     <div>
                         <div className="items">
-                            {items.map(item => {
-                                return(
-                                    <div className="cartItem">
-                                        <img className="cart__img" width={70} height={70} src={item.image} alt="cart"/>
-                                        <div className="cartItem__desc">
-                                            <p className="desc">{item.title}</p>
-                                            <b>{item.price}</b>
-                                        </div>
-                                        <img className="remove-btn" src="/img/delete.svg" onClick={() => onRemove(item.id)} alt="delete"/>
+                            {items.map(item => (
+                                <div key={item.id} className="cartItem">
+                                    <img className="cart__img" width={70} height={70} src={item.image} alt="cart"/>
+                                    <div className="cartItem__desc">
+                                        <p className="desc">{item.title}</p>
+                                        <b>{item.price}</b>
                                     </div>
-                                )
-                            })}
+                                    <img className="remove-btn" src="/img/delete.svg" onClick={() => onRemove(item.id)} alt="delete"/>
+                                </div>
+                            ))}
                         </div>
                         <div className="cartTotalBlock">
                             <ul>
