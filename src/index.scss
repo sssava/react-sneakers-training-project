@@ -243,6 +243,12 @@ header{
   margin-bottom: 40px;
 }
 
+.cart__items{
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
 .cartTotalBlock{
   ul{
     margin-bottom: 40px;
