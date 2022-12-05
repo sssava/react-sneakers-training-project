@@ -4,6 +4,7 @@ import AppContext from "../context";
 
 function Favorites() {
     const {favorites, onAddToFavorites} = useContext(AppContext)
+
     return (
         <div className="content">
             <div className="content-header">

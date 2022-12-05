@@ -10,7 +10,7 @@ function Card({id, title, price, image, onPlus, onFav, favorited=false, added=fa
     console.log(title, isItemAdded(id))
 
     const onClickPlus = () => {
-        onPlus({id, title, image, price})
+        onPlus({id, parentId: id, title, image, price})
     }
 
     const onClickFav = () => {

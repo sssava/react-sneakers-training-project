@@ -23,7 +23,7 @@ function App() {
             try {
                 const [cartResp, favResp, itemsResp] = await Promise.all([
                     axios.get("https://63875d2cd9b24b1be3ee3b8c.mockapi.io/cart"),
-                    axios.get("https://63875d2cd9b24b1be3ee3b8c.mockapi.io/cart"),
+                    axios.get("https://63875d2cd9b24b1be3ee3b8c.mockapi.io/favorites"),
                     axios.get("https://63875d2cd9b24b1be3ee3b8c.mockapi.io/items")
                 ])
                 setIsLoading(false)
@@ -41,14 +41,15 @@ function App() {
 
     const onAddToCart = async (obj) => {
         try {
-            if(cartItems.find((item) => Number(item.id) === Number(obj.id))){
-                setCartItems(prevItems => prevItems.filter(item => Number(item.id) !== Number(obj.id)))
-                await axios.delete(`https://63875d2cd9b24b1be3ee3b8c.mockapi.io/cart/${obj.id}`)
+            const findItem = cartItems.find((item) => Number(item.parentId) === Number(obj.id))
+            if(findItem){
+                setCartItems(prevItems => prevItems.filter(item => Number(item.parentId) !== Number(obj.id)))
+                await axios.delete(`https://63875d2cd9b24b1be3ee3b8c.mockapi.io/cart/${findItem.id}`)
 
 
             }else {
-                setCartItems(prevCartItem => [...prevCartItem, obj])
-                await axios.post("https://63875d2cd9b24b1be3ee3b8c.mockapi.io/cart", obj);
+                const {data} = await axios.post("https://63875d2cd9b24b1be3ee3b8c.mockapi.io/cart", obj);
+                setCartItems(prevCartItem => [...prevCartItem, data])
             }
         }catch (error){
             alert("Не удалось добавить в корзину")
@@ -86,7 +87,7 @@ function App() {
     }
 
     const isItemAdded = (id) => {
-        return cartItems.some((obj) => Number(obj.id) === Number(id))
+        return cartItems.some((obj) => Number(obj.parentId) === Number(id))
     }
 
   return (
