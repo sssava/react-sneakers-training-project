@@ -1,6 +1,7 @@
 import React from 'react';
 import Card from "../components/Card/Card.js";
 
+
 function Home({items, onChangeSearchInput, searchValue, setSearchValue, onAddToFavorites, onAddToCart, isLoading}) {
 
     const renderItems = () =>{
@@ -14,6 +15,7 @@ function Home({items, onChangeSearchInput, searchValue, setSearchValue, onAddToF
                   {...item} />
         ))
     }
+
 
     return (
         <div className="content">

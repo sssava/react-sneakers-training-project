@@ -1,14 +1,17 @@
-import React, {useContext, useState} from 'react';
-import Info from "./Info";
-import AppContext from "../context";
+import React, {useState} from 'react';
+import Info from "../Info";
 import axios from "axios";
+import {useCart} from "../../hooks/useCart";
+
+import styles from './CartDrawer.module.scss'
+
 
 const delay = (ms) => new Promise((resolve) =>setTimeout(resolve, ms))
 
-function CartDrawer({onClickCart, items = [], onRemove}) {
+function CartDrawer({onClickCart, items = [], onRemove, opened}) {
     const [isOrderComplete, setIsOrderComplete] = useState(false)
     const [orderId, setOrderId] = useState(null)
-    const {cartItems, setCartItems} = useContext(AppContext)
+    const {cartItems, setCartItems, total} = useCart()
 
     const onClickOrder = async () =>{
         try{
@@ -29,8 +32,8 @@ function CartDrawer({onClickCart, items = [], onRemove}) {
     console.log(items)
 
     return (
-        <div className="overlay">
-            <div className="drawer">
+        <div className={`${styles.overlay} ${opened ? styles.overlayVisible : ''}`}>
+            <div className={styles.drawer}>
                 <h2 className="cart-title">Корзина <img className="remove-btn" src="/img/delete.svg" onClick={onClickCart} alt="delete"/></h2>
                 {items.length > 0 ?
                     <div className="cart__items">
@@ -51,12 +54,12 @@ function CartDrawer({onClickCart, items = [], onRemove}) {
                                 <li>
                                     <span>Итого:</span>
                                     <div></div>
-                                    <b>21 498 UAH</b>
+                                    <b>{total}UAH</b>
                                 </li>
                                 <li>
                                     <span>Налог 5%:</span>
                                     <div></div>
-                                    <b>1074 UAH</b>
+                                    <b>{total / 100 * 5} UAH</b>
                                 </li>
                             </ul>
                             <button onClick={onClickOrder} className="greenButton">Оформить заказ <img src="/img/arrow.svg" alt="Arrow"/></button>
